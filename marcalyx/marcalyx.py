@@ -194,7 +194,7 @@ class DataField(MarcNamespacedElement):
 class SubField:
     def __init__(self, node):
         self.code = node.attrib['code']
-        self.value = node.text
+        self.value = node.text if node.text else ''
 
     def __repr__(self):
         return "$%s%s" % (self.code, self.value,)

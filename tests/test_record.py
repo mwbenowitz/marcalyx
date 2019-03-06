@@ -59,6 +59,13 @@ def fissures():
     return marcalyx.Record(root)
 
 
+@pytest.fixture()
+def tokio():
+    tree = ET.parse('tests/xml/26003.xml')
+    root = tree.getroot()
+    return marcalyx.Record(root)
+
+
 def test_leader(kindred):
     assert kindred.leader == '00000cam a2200000Mi 4500'
 
@@ -83,6 +90,13 @@ def test_subfields_when_all_should_be_empy(kindred):
     s = kindred.subfield("650", "9")
     assert isinstance(s, list)
     assert len(s) == 0
+
+
+def test_self_closing_subfield(tokio):
+    es = tokio.subfield("520", "a")
+    assert isinstance(es, list)
+    assert len(es) == 1
+    assert str(es[0]) == '$a'
 
 
 def test_getting_a_field(kindred):
